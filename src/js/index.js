@@ -1,3 +1,5 @@
+import {changeBackground} from './condicoes.js';
+
 const chaveDaApi = "975b2fe3b3504a5fbe5210052230412";
 
 const botaoDeBusca = document.querySelector(".btn-busca");
@@ -10,6 +12,7 @@ botaoDeBusca.addEventListener("click", async () => {
     const dados = await buscarDadosDaCidade(cidade);
     
     if(dados) preencherDadosNaTela(dados, cidade);
+    changeBackground();
 });
 
 async function buscarDadosDaCidade(cidade){
@@ -19,13 +22,13 @@ const resposta = await fetch (apiUrl);
 
 if(resposta.status !==200) return;
 
-const dados = resposta.json();
+const dados = await resposta.json();
 
 return dados;
 
 }
 
-function preencherDadosNaTela(dados,cidade){
+export function preencherDadosNaTela(dados,cidade){
     const temperatura = dados.current.temp_c;
     const condicao = dados.current.condition.text
     const humidade = dados.current.humidity;
@@ -39,3 +42,5 @@ function preencherDadosNaTela(dados,cidade){
     document.getElementById("velocidade-do-vento").textContent = `${velocidadeDoVento}km/h`
     document.getElementById("icone-condicao").setAttribute("src", iconeCondicao )
 }
+
+
